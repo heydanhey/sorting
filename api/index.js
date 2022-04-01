@@ -1,7 +1,6 @@
-const fetch = require('node-fetch');
-const HTMLParser = require('node-html-parser');
-
 exports.handler = async function http (req) {
+  const fetch = require('node-fetch');
+  const HTMLParser = require('node-html-parser');
   let data = [];
   let error = '';
   try {
