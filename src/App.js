@@ -1,40 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 const App = () => {
-  const [message, setMessage] = useState('...loading')
+  const [data, setData] = useState([], 'data');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData () {
       try {
-        let data = await (await fetch('/api')).json()
-        setMessage(data.message)
+        setLoading(true);
+        let response = await fetch('/api');
+        if (!response.ok) {
+          throw new Error('Failed to fetch');
+        }
+        let data = await response.json();
+        setData(data.message);
       } catch (err) {
-        setMessage(err.message)
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
     }
     fetchData()
-  })
+  }, [setData])
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{message}</p>
-        <p>Change me!</p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        Bulls Injury Report
       </header>
+      {error && <p>{error}</p>}
+      {loading && <p>Loading...</p>}
+      {data.map(player => {
+        return (
+          <div key={player.name}>
+            <h3>{player.name}</h3>
+            <p>{player.position}</p>
+            <p>{player.date}</p>
+            <p>{player.status}</p>
+          </div>
+        )
+      })}
     </div>
   );
 }
