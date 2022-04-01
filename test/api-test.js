@@ -14,7 +14,7 @@ test('Start the Sandbox', async t => {
   t.equal(result, 'Sandbox successfully started')
 })
 
-test('get /api', async t => {
+test.skip('get /api', async t => {
   t.plan(2)
   try {
     let result = await tiny.get({url: `${base}/api`})
