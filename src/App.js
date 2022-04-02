@@ -32,6 +32,7 @@ const App = () => {
       </header>
       {error && <p>{error}</p>}
       {loading && <p>Loading...</p>}
+      {!loading && data.length === 0 && <p>No injuries reported</p>}
       {data.map(player => {
         return (
           <div key={player.name}>

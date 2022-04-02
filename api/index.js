@@ -10,7 +10,9 @@ exports.handler = async function http (req) {
     }
     const site = await response.text();
     const root = HTMLParser.parse(site);
-    const rows = root.querySelector(`img[title="${process.env.NBA_TEAM}"]`).closest('.Table__league-injuries').querySelectorAll('tr');
+    const teamImage = root.querySelector(`img[title="${process.env.NBA_TEAM}"]`);
+    const teamTable = teamImage && teamImage.closest('.Table__league-injuries');
+    const rows = teamTable && teamTable.querySelectorAll('tr');
     if (rows && rows.length > 0) {
       const [, ...injuries] = rows;
       data = injuries.map(injury => {
