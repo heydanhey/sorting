@@ -10,7 +10,7 @@ exports.handler = async function http (req) {
     }
     const site = await response.text();
     const root = HTMLParser.parse(site);
-    const rows = root?.querySelector(`img[title="${process.env.NBA_TEAM}"]`)?.closest('.Table__league-injuries')?.querySelectorAll('tr');
+    const rows = root.querySelector(`img[title="${process.env.NBA_TEAM}"]`).closest('.Table__league-injuries').querySelectorAll('tr');
     if (rows && rows.length > 0) {
       const [, ...injuries] = rows;
       data = injuries.map(injury => {
@@ -24,7 +24,7 @@ exports.handler = async function http (req) {
       })
     }
   } catch (err) {
-    error = err?.message || 'Server error';
+    error = err ? JSON.stringify(err) : 'Server error';
   }
 
   if (error) {
