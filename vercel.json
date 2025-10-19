@@ -22,9 +22,5 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "env": {
-    "SCRAPE_URL": "@scrape_url",
-    "NBA_TEAM": "@nba_team"
-  }
+  ]
 }

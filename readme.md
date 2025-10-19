@@ -1,12 +1,63 @@
-<img src="https://static.begin.app/node-create-react-app/readme-banner.png" width="966">
+# NBA Injury Tracker
 
-[Create React App](https://create-react-app.dev/)'s starter app, extended by [Begin](https://begin.com)-based API endpoints.
+A React application with serverless API that scrapes NBA injury data from ESPN.
 
-## Deploy your own
+## Features
 
-[![Deploy to Begin](https://static.begin.com/deploy-to-begin.svg)](https://begin.com/apps/create?template=https://github.com/begin-examples/node-create-react-app)
+- **React Frontend**: Modern React app with Create React App
+- **Serverless API**: Node.js API function that scrapes NBA injury data
+- **Real-time Data**: Fetches current injury information for NBA teams
+- **Responsive Design**: Works on desktop and mobile devices
 
-Deploy your own clone of this app to Begin!
+## Deploy to Vercel
+
+### Option 1: One-Click Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/sorting)
+
+### Option 2: Manual Deployment
+
+1. **Fork this repository** to your GitHub account
+
+2. **Install Vercel CLI**:
+   ```bash
+   npm install -g vercel
+   ```
+
+3. **Clone and setup**:
+   ```bash
+   git clone https://github.com/your-username/sorting.git
+   cd sorting
+   npm install
+   ```
+
+4. **Configure environment variables**:
+   ```bash
+   vercel env add SCRAPE_URL production
+   # Enter: https://www.espn.com/nba/injuries
+   
+   vercel env add NBA_TEAM production
+   # Enter your team name (e.g., "Lakers", "Warriors", etc.)
+   ```
+
+5. **Deploy**:
+   ```bash
+   vercel --prod
+   ```
+
+### Option 3: GitHub Integration
+
+1. **Connect to Vercel**:
+   - Go to [vercel.com](https://vercel.com)
+   - Click "New Project"
+   - Import your GitHub repository
+   - Vercel will auto-detect the React app configuration
+
+2. **Add environment variables** in the Vercel dashboard:
+   - `SCRAPE_URL`: `https://www.espn.com/nba/injuries`
+   - `NBA_TEAM`: Your preferred NBA team name
+
+3. **Deploy**: Vercel will automatically deploy on every push to main branch
 
 ## Available Scripts
 
@@ -56,35 +107,39 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Learn More
 
-### Begin Reference
+### Vercel Documentation
 
-- [Quickstart](https://docs.begin.com/en/guides/quickstart/) - basics on working locally, project structure, deploying, and accessing your Begin app
-- [Creating new routes](https://docs.begin.com/en/functions/creating-new-functions) - basics on expanding the capabilities of your app
+- [Vercel Functions](https://vercel.com/docs/functions) - Learn about serverless functions
+- [Environment Variables](https://vercel.com/docs/environment-variables) - Managing secrets and config
+- [Deployment](https://vercel.com/docs/deployments) - Understanding deployments and domains
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### React & Development
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-Head to [docs.begin.com](https://docs.begin.com/) to learn more!
+- [Create React App](https://create-react-app.dev/) - Learn more about the React framework
+- [React Documentation](https://reactjs.org/) - Official React documentation
+- [Node.js](https://nodejs.org/) - JavaScript runtime for the API
 
-### Code Splitting
+### API Endpoints
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+- **GET `/api`** - Fetches NBA injury data for the configured team
+- **Environment Variables Required**:
+  - `SCRAPE_URL`: ESPN NBA injuries page URL
+  - `NBA_TEAM`: Team name to filter injuries
+  - `ALLOWED_ORIGIN`: https://your-domain.com
 
-### Analyzing the Bundle Size
+### Common Issues
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+**API Function Error**: If you get `FUNCTION_INVOCATION_FAILED`:
+- Ensure your API function uses `module.exports = async function handler(req, res)` format
+- Check that environment variables are properly configured in Vercel
 
-### Making a Progressive Web App
+**Deployment Protection**: If API returns authentication page:
+- Go to Vercel Dashboard → Project Settings → Security
+- Disable "Deployment Protection" for production environment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+**Environment Variables**: If API returns empty data:
+- Verify `SCRAPE_URL` points to ESPN NBA injuries page
+- Check that `NBA_TEAM` matches exactly with team names on ESPN
 
 ### `npm run build` fails to minify
 

@@ -1,8 +1,28 @@
-exports.handler = async function http (req) {
-  const fetch = require('node-fetch');
-  const HTMLParser = require('node-html-parser');
+const fetch = require('node-fetch');
+const HTMLParser = require('node-html-parser');
+
+module.exports = async function handler(req, res) {
   let data = [];
   let error = '';
+
+  const allowedOrigins = [
+    process.env.ALLOWED_ORIGIN,
+    'http://localhost:3000',
+    'http://localhost:3333'
+  ];
+  
+  const referer = req.headers.referer || req.headers.origin;
+  const isAllowed = allowedOrigins.some(origin => 
+    referer && referer.startsWith(origin)
+  );
+  
+  if (!isAllowed) {
+    res.status(403).json({
+      error: 'Forbidden - Request must come from authorized domain'
+    });
+    return;
+  }
+
   try {
     const response = await fetch(process.env.SCRAPE_URL)
     if (!response.ok) {
@@ -30,22 +50,15 @@ exports.handler = async function http (req) {
   }
 
   if (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error
-      })
-    }
+    res.status(500).json({
+      error
+    });
+    return;
   }
 
-  return {
-    headers: {
-      'content-type': 'application/json; charset=utf8',
-      'cache-control': 'max-age=43200'
-    },
-    statusCode: 200,
-    body: JSON.stringify({
-      message: data
-    })
-  }
+  res.setHeader('content-type', 'application/json; charset=utf8');
+  res.setHeader('cache-control', 'max-age=43200');
+  res.status(200).json({
+    message: data
+  });
 }
